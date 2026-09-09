@@ -1,14 +1,17 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { SelectField, TextInput } from '@/components/ui/FormField';
 import { useToast } from '@/components/providers/ToastProvider';
 import { useInviteStaff, useRoles } from '@/hooks/useStaff';
 import { ApiError } from '@/lib/api-client';
 import type { FieldErrors } from '@/types';
 
-export function InviteStaffDialog({ onClose }: { onClose: () => void }) {
+export function InviteStaffForm() {
+  const router = useRouter();
   const { showToast } = useToast();
   const roles = useRoles();
   const inviteStaff = useInviteStaff();
@@ -25,7 +28,7 @@ export function InviteStaffDialog({ onClose }: { onClose: () => void }) {
       {
         onSuccess: () => {
           showToast('Invite sent', 'success');
-          onClose();
+          router.push('/staff');
         },
         onError: (error) => {
           if (error instanceof ApiError && error.fieldErrors) {
@@ -39,17 +42,11 @@ export function InviteStaffDialog({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="invite-staff-title"
-    >
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-        <h2 id="invite-staff-title" className="text-base font-semibold text-slate-900">
-          Invite staff member
-        </h2>
-        <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4" noValidate>
+    <div className="flex flex-col gap-6">
+      <h1 className="text-2xl font-bold text-slate-900">Invite staff member</h1>
+
+      <Card className="max-w-md p-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
           <TextInput
             label="Email"
             type="email"
@@ -70,7 +67,7 @@ export function InviteStaffDialog({ onClose }: { onClose: () => void }) {
             required
           />
           <div className="mt-2 flex justify-end gap-3">
-            <Button type="button" variant="secondary" onClick={onClose}>
+            <Button type="button" variant="secondary" onClick={() => router.push('/staff')}>
               Cancel
             </Button>
             <Button type="submit" isLoading={inviteStaff.isPending}>
@@ -78,7 +75,7 @@ export function InviteStaffDialog({ onClose }: { onClose: () => void }) {
             </Button>
           </div>
         </form>
-      </div>
+      </Card>
     </div>
   );
 }

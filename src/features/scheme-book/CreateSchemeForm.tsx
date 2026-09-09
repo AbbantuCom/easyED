@@ -3,13 +3,14 @@
 import { useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { TextInput } from '@/components/ui/FormField';
 import { useCreateScheme } from '@/hooks/useSchemes';
 import { useToast } from '@/components/providers/ToastProvider';
 import { ApiError } from '@/lib/api-client';
 import type { FieldErrors } from '@/types';
 
-export function CreateSchemeDialog({ onClose }: { onClose: () => void }) {
+export function CreateSchemeForm() {
   const router = useRouter();
   const { showToast } = useToast();
   const createScheme = useCreateScheme();
@@ -42,17 +43,11 @@ export function CreateSchemeDialog({ onClose }: { onClose: () => void }) {
   }
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="create-scheme-title"
-    >
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-        <h2 id="create-scheme-title" className="text-base font-semibold text-slate-900">
-          New scheme book
-        </h2>
-        <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-4" noValidate>
+    <div className="flex flex-col gap-6">
+      <h1 className="text-2xl font-bold text-slate-900">New scheme book</h1>
+
+      <Card className="max-w-md p-6">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
           <TextInput
             label="Class"
             name="klass"
@@ -87,7 +82,7 @@ export function CreateSchemeDialog({ onClose }: { onClose: () => void }) {
             required
           />
           <div className="mt-2 flex justify-end gap-3">
-            <Button type="button" variant="secondary" onClick={onClose}>
+            <Button type="button" variant="secondary" onClick={() => router.push('/schemes')}>
               Cancel
             </Button>
             <Button type="submit" isLoading={createScheme.isPending}>
@@ -95,7 +90,7 @@ export function CreateSchemeDialog({ onClose }: { onClose: () => void }) {
             </Button>
           </div>
         </form>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -100,7 +100,7 @@ export function TextInput({ label, error, id, className = '', type, ...props }: 
           onClick={() => setVisible((v) => !v)}
           aria-label={visible ? 'Hide password' : 'Show password'}
           aria-pressed={visible}
-          className="absolute inset-y-0 right-0 flex items-center rounded-r-lg px-3 text-slate-400 hover:text-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          className="absolute inset-y-0 right-0 flex items-center rounded-r-lg px-3 text-slate-400 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-rotate-6 hover:scale-125 hover:text-slate-600 active:scale-90 active:rotate-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           {visible ? <EyeOffIcon /> : <EyeIcon />}
         </button>

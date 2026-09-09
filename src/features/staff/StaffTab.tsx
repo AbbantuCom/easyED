@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { SelectField } from '@/components/ui/FormField';
@@ -10,7 +11,6 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { useToast } from '@/components/providers/ToastProvider';
 import { useRemoveStaff, useRoles, useStaff, useUpdateStaffRole } from '@/hooks/useStaff';
 import { useAuth, useHasPermission } from '@/features/auth/AuthProvider';
-import { InviteStaffDialog } from '@/features/staff/InviteStaffDialog';
 import type { User } from '@/types';
 
 export function StaffTab() {
@@ -25,7 +25,6 @@ export function StaffTab() {
   const removeStaff = useRemoveStaff();
   const { showToast } = useToast();
 
-  const [showInvite, setShowInvite] = useState(false);
   const [staffPendingRemoval, setStaffPendingRemoval] = useState<User | null>(null);
 
   const roleNameById = new Map((roles.data?.roles ?? []).map((role) => [role.id, role.name]));
@@ -56,7 +55,11 @@ export function StaffTab() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold text-slate-900">Staff</h2>
-        {canInvite && <Button onClick={() => setShowInvite(true)}>Invite staff</Button>}
+        {canInvite && (
+          <Link href="/staff/invite">
+            <Button>Invite staff</Button>
+          </Link>
+        )}
       </div>
 
       {staff.isLoading && <SkeletonList rows={3} />}
@@ -66,7 +69,13 @@ export function StaffTab() {
         <EmptyState
           title="No staff yet"
           description="Invite teachers and academic heads to join your school's account."
-          action={canInvite && <Button onClick={() => setShowInvite(true)}>Invite staff</Button>}
+          action={
+            canInvite && (
+              <Link href="/staff/invite">
+                <Button>Invite staff</Button>
+              </Link>
+            )
+          }
         />
       )}
 
@@ -137,8 +146,6 @@ export function StaffTab() {
         onConfirm={handleConfirmRemove}
         onCancel={() => setStaffPendingRemoval(null)}
       />
-
-      {showInvite && <InviteStaffDialog onClose={() => setShowInvite(false)} />}
     </div>
   );
 }

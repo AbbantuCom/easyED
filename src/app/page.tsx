@@ -21,7 +21,7 @@ const FEATURES = [
 export default function LandingPage() {
   return (
     <div className="flex flex-1 flex-col">
-      <header className="border-b border-slate-200 bg-white">
+      <header className="sticky top-0 z-40 border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
           <span className="text-lg font-bold text-slate-900">easyEd</span>
           <nav className="flex items-center gap-3">

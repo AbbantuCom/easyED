@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
@@ -9,7 +10,6 @@ import { useToast } from '@/components/providers/ToastProvider';
 import { useDeleteRole, useRoles, useUpdateRole } from '@/hooks/useStaff';
 import { useHasPermission } from '@/features/auth/AuthProvider';
 import { RoleCheckboxGrid } from '@/features/roles/RoleCheckboxGrid';
-import { CreateRoleDialog } from '@/features/roles/CreateRoleDialog';
 import type { Permission } from '@/lib/constants';
 import type { Role } from '@/types';
 
@@ -92,13 +92,16 @@ function RoleRow({ role }: { role: Role }) {
 export function RolesTab() {
   const roles = useRoles();
   const canManage = useHasPermission('role.manage');
-  const [showCreate, setShowCreate] = useState(false);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold text-slate-900">Roles</h2>
-        {canManage && <Button onClick={() => setShowCreate(true)}>New role</Button>}
+        {canManage && (
+          <Link href="/staff/roles/new">
+            <Button>New role</Button>
+          </Link>
+        )}
       </div>
 
       {roles.isLoading && <SkeletonList rows={3} />}
@@ -111,8 +114,6 @@ export function RolesTab() {
           ))}
         </div>
       )}
-
-      {showCreate && <CreateRoleDialog onClose={() => setShowCreate(false)} />}
     </div>
   );
 }

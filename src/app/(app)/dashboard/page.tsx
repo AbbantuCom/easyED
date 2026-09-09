@@ -25,7 +25,7 @@ export default function DashboardPage() {
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Recent scheme books</h2>
-            <Link href="/schemes">
+            <Link href="/schemes/new">
               <Button variant="secondary">New scheme</Button>
             </Link>
           </div>
@@ -39,7 +39,7 @@ export default function DashboardPage() {
               title="No scheme books yet"
               description="Create your first scheme book to start planning your term week by week."
               action={
-                <Link href="/schemes">
+                <Link href="/schemes/new">
                   <Button>Create a scheme book</Button>
                 </Link>
               }
@@ -66,7 +66,7 @@ export default function DashboardPage() {
         <section className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <h2 className="text-base font-semibold text-slate-900">Recent lesson plans</h2>
-            <Link href="/lessons">
+            <Link href="/lessons/new">
               <Button variant="secondary">New lesson</Button>
             </Link>
           </div>
@@ -80,7 +80,7 @@ export default function DashboardPage() {
               title="No lesson plans yet"
               description="Create your first lesson plan, optionally pulling details from a scheme week."
               action={
-                <Link href="/lessons">
+                <Link href="/lessons/new">
                   <Button>Create a lesson plan</Button>
                 </Link>
               }

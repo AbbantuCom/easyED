@@ -116,7 +116,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen">
       {/* Desktop sidebar */}
-      <aside className="hidden w-60 shrink-0 flex-col border-r border-slate-200 bg-white md:flex">
+      <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col overflow-y-auto border-r border-slate-200 bg-white md:flex">
         <div className="flex items-center gap-2 px-5 py-4">
           <Link href="/dashboard" className="text-lg font-bold text-slate-900">
             easyEd
@@ -132,13 +132,15 @@ export function AppShell({ children }: { children: ReactNode }) {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
+                className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ${
                   active
                     ? 'bg-indigo-50 text-indigo-700'
                     : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                 }`}
               >
-                <Icon className={active ? 'text-indigo-600' : 'text-slate-400'} />
+                <Icon
+                  className={`transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-125 group-active:scale-90 group-active:rotate-0 ${active ? 'text-indigo-600' : 'text-slate-400'}`}
+                />
                 {item.label}
               </Link>
             );
@@ -164,7 +166,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <div className="flex flex-1 flex-col">
         {/* Mobile top bar */}
-        <header className="border-b border-slate-200 bg-white md:hidden">
+        <header className="sticky top-0 z-40 border-b border-slate-200 bg-white md:hidden">
           <div className="flex items-center justify-between px-4 py-3">
             <Link href="/dashboard" className="text-lg font-bold text-slate-900">
               easyEd
@@ -172,7 +174,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <button
               type="button"
               onClick={() => setMenuOpen((open) => !open)}
-              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-600 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="inline-flex items-center justify-center rounded-lg p-2 text-slate-600 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-rotate-6 hover:scale-125 hover:bg-slate-100 active:scale-90 active:rotate-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               aria-expanded={menuOpen}
               aria-label="Toggle navigation menu"
             >
@@ -197,13 +199,15 @@ export function AppShell({ children }: { children: ReactNode }) {
                     key={item.href}
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
-                    className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
+                    className={`group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium ${
                       active
                         ? 'bg-indigo-50 text-indigo-700'
                         : 'text-slate-600 hover:bg-slate-100'
                     }`}
                   >
-                    <Icon className={active ? 'text-indigo-600' : 'text-slate-400'} />
+                    <Icon
+                      className={`transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:-rotate-6 group-hover:scale-125 group-active:scale-90 group-active:rotate-0 ${active ? 'text-indigo-600' : 'text-slate-400'}`}
+                    />
                     {item.label}
                   </Link>
                 );

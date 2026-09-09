@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useSchemes } from '@/hooks/useSchemes';
 import { useHasPermission } from '@/features/auth/AuthProvider';
-import { CreateSchemeDialog } from '@/features/scheme-book/CreateSchemeDialog';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { SkeletonList } from '@/components/ui/Skeleton';
@@ -12,7 +11,6 @@ import { EmptyState } from '@/components/ui/EmptyState';
 
 export default function SchemesPage() {
   const [page, setPage] = useState(1);
-  const [showCreate, setShowCreate] = useState(false);
   const canCreate = useHasPermission('scheme.create');
   const schemes = useSchemes(page, 20);
 
@@ -20,7 +18,11 @@ export default function SchemesPage() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-900">Scheme books</h1>
-        {canCreate && <Button onClick={() => setShowCreate(true)}>New scheme book</Button>}
+        {canCreate && (
+          <Link href="/schemes/new">
+            <Button>New scheme book</Button>
+          </Link>
+        )}
       </div>
 
       {schemes.isLoading && <SkeletonList rows={4} />}
@@ -32,7 +34,9 @@ export default function SchemesPage() {
           description="A scheme book lays out your term week by week. Create one to get started."
           action={
             canCreate ? (
-              <Button onClick={() => setShowCreate(true)}>Create a scheme book</Button>
+              <Link href="/schemes/new">
+                <Button>Create a scheme book</Button>
+              </Link>
             ) : undefined
           }
         />
@@ -78,8 +82,6 @@ export default function SchemesPage() {
           </Button>
         </div>
       )}
-
-      {showCreate && <CreateSchemeDialog onClose={() => setShowCreate(false)} />}
     </div>
   );
 }

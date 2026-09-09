@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { StaffTab } from '@/features/staff/StaffTab';
 import { RolesTab } from '@/features/roles/RolesTab';
@@ -9,7 +9,9 @@ type Tab = 'staff' | 'roles';
 
 export default function StaffPage() {
   const { account } = useAuth();
-  const [tab, setTab] = useState<Tab>('staff');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tab: Tab = searchParams.get('tab') === 'roles' ? 'roles' : 'staff';
 
   if (account.type !== 'school') {
     return (
@@ -28,7 +30,7 @@ export default function StaffPage() {
           <button
             key={value}
             type="button"
-            onClick={() => setTab(value)}
+            onClick={() => router.push(value === 'staff' ? '/staff' : '/staff?tab=roles')}
             className={`border-b-2 px-4 py-2 text-sm font-medium capitalize ${
               tab === value
                 ? 'border-indigo-600 text-indigo-600'
